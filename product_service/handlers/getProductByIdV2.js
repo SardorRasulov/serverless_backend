@@ -6,6 +6,11 @@ export const getProductByIdV2 = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(productById)
+    body: JSON.stringify(productById),
+    headers: {
+      "Access-Control-Allow-Headers" : "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    }
   }
 }
