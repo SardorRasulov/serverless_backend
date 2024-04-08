@@ -27,6 +27,11 @@ provider:
   region: ap-northeast-1
   profile: admin
 
+  # you can define service wide environment variables here
+  environment:
+    PRODUCTS_TABLE_NAME: Product
+    STOCKS_TABLE_NAME: stocks
+
 # you can add statements to the Lambda function's IAM Role here
 #  iam:
 #    role:
@@ -44,10 +49,6 @@ provider:
 #              - - "arn:aws:s3:::"
 #                - "Ref" : "ServerlessDeploymentBucket"
 #                - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
 
 # you can add packaging information here
 #package:
@@ -76,6 +77,16 @@ functions:
             parameters:
               paths:
                 productId: true
+  createProductV1:
+    handler: handlers/createProductV1.createProductV1
+    events:
+      - http:
+          path: products
+          method: post
+          cors: true
+          request:
+            schemas:
+              application/json: ${file(src/schemas/createProductSchema.json)}
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
