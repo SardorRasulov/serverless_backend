@@ -1,5 +1,5 @@
 import csv from 'csv-parser'
-import { GetObjectCommand, CopyObjectCommand } from '@aws-sdk/client-s3'
+import { GetObjectCommand, DeleteObjectCommand, CopyObjectCommand } from '@aws-sdk/client-s3'
 import { client } from './../client/client.js'
 
 export const importFileParser = async event => {
@@ -16,8 +16,12 @@ export const importFileParser = async event => {
         .on('end', () => {
             const fileName = objectKey.split('/')[1]
             const copyObjectCommand = new CopyObjectCommand({ CopySource: `${bucketName}/${objectKey}`, Bucket: bucketName,  Key: `parsed/${fileName}` })
+            const deleteObjectCommand = new DeleteObjectCommand({ Bucket: bucketName, Key: objectKey })
             client.send(copyObjectCommand)
-                .then(() => console.log(`File ${fileName} moved from "uploaded" to "parsed" directory`))
+                .then(() => {
+                    client.send(deleteObjectCommand)
+                        .then(() => console.log(`File ${fileName} moved from "uploaded" to "parsed" directory`))
+                })
         })
 
     return {
