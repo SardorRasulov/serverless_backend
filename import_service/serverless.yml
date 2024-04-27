@@ -22,7 +22,7 @@ provider:
             - 'sqs:GetQueueUrl'
             - 'sqs:SendMessage'
           Resource:
-            - 'arn:aws:sqs:ap-northeast-1:700058269365:catalogItemsQueue'
+            - 'arn:aws:sqs:::catalogItemsQueue'
 
 functions:
   importProductsFile:
