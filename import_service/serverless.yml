@@ -44,6 +44,7 @@ functions:
           authorizer:
             arn: arn:aws:lambda:ap-northeast-1:700058269365:function:authorization-service-dev-basicAuthorizer
             type: request
+            identitySource: method.request.header.Authorization
   importFileParser:
     handler: handlers/importFileParser.importFileParser
     events:

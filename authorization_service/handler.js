@@ -1,6 +1,7 @@
 import { generateResponse } from "./helpers/generateResponse.js"
 
 export const basicAuthorizer = async event => {
+  console.log('basicAuthorizer')
   const masterPass = process.env.sardorrasulov
   const { headers } = event
   const { Authorization } = headers
@@ -18,7 +19,19 @@ export const basicAuthorizer = async event => {
     const isValidPass = val => val === masterPass
 
     if (isValidUsername(username) && isValidPass(password)) {
-      return generateResponse(200, { username })
+      return {
+        "principalId": "SardorRasulov",
+        "policyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ]
+        }
+      }
     } else {
       return generateResponse(403, { message: 'Invalid credentials' })
     }
