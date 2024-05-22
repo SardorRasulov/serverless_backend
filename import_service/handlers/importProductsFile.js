@@ -9,7 +9,7 @@ export const importProductsFile = async event => {
     if (!fileName) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'Filename is not provided' })
+        body: JSON.stringify({ message: 'Filename is not provided' }) 
       }
     }
     const command = new GetObjectCommand({ Bucket: 'task-5-s3integration-sr', Key: `uploaded/${fileName}` })
