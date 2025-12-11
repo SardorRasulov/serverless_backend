@@ -1,0 +1,17 @@
+service: authorization-service
+
+frameworkVersion: "3"
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-1
+  profile: admin
+
+functions:
+  basicAuthorizer:
+    handler: handler.basicAuthorizer
+    environment:
+      sardorrasulov: ${env:sardorrasulov}
